@@ -1,5 +1,11 @@
 package App.Src;
 
+import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class PallindromeCheckerApp {
     public static void main(String[] args) {
         System.out.println("Welcome to the Pallindrome Checker Management System");
@@ -34,6 +40,247 @@ public class PallindromeCheckerApp {
             System.out.println("Result : \"" + input + "\" is a Palindrome.");
         } else {
             System.out.println("Result : \"" + input + "\" is NOT a Palindrome.");
+        }
+        // UC4 - Character Array Based Palindrome Check (Two-Pointer)
+        String uc4Input = "level";
+        char[] chars = uc4Input.toCharArray();
+        int left = 0;
+        int right = chars.length - 1;
+        boolean isPalindrome = true;
+
+        while (left < right) {
+            if (chars[left] != chars[right]) {
+                isPalindrome = false;
+                break;
+            }
+            left++;
+            right--;
+        }
+
+        System.out.println("\n--- UC4: Character Array Based Palindrome Check ---");
+        System.out.println("Input  : " + uc4Input);
+
+        if (isPalindrome) {
+            System.out.println("Result : \"" + uc4Input + "\" is a Palindrome.");
+        } else {
+            System.out.println("Result : \"" + uc4Input + "\" is NOT a Palindrome.");
+        }
+
+        // UC5 - Stack Based Palindrome Check
+        String uc5Input = "deified";
+        Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < uc5Input.length(); i++) {
+            stack.push(uc5Input.charAt(i));
+        }
+
+        String uc5Reversed = "";
+        while (!stack.isEmpty()) {
+            uc5Reversed = uc5Reversed + stack.pop();
+        }
+
+        System.out.println("\n--- UC5: Stack Based Palindrome Check ---");
+        System.out.println("Input  : " + uc5Input);
+
+        if (uc5Input.equals(uc5Reversed)) {
+            System.out.println("Result : \"" + uc5Input + "\" is a Palindrome.");
+        } else {
+            System.out.println("Result : \"" + uc5Input + "\" is NOT a Palindrome.");
+        }
+        // UC6 - Queue vs Stack: FIFO vs LIFO Palindrome Check
+        String uc6Input = "civic";
+        Queue<Character> queue = new LinkedList<>();
+        Stack<Character> uc6Stack = new Stack<>();
+
+        for (int i = 0; i < uc6Input.length(); i++) {
+            queue.add(uc6Input.charAt(i)); // Enqueue (FIFO)
+            uc6Stack.push(uc6Input.charAt(i)); // Push (LIFO)
+        }
+
+        boolean uc6IsPalindrome = true;
+        while (!queue.isEmpty()) {
+            if (queue.poll() != uc6Stack.pop()) { // Dequeue vs Pop
+                uc6IsPalindrome = false;
+                break;
+            }
+        }
+
+        System.out.println("\n--- UC6: Queue vs Stack (FIFO vs LIFO) Palindrome Check ---");
+        System.out.println("Input  : " + uc6Input);
+
+        if (uc6IsPalindrome) {
+            System.out.println("Result : \"" + uc6Input + "\" is a Palindrome.");
+        } else {
+            System.out.println("Result : \"" + uc6Input + "\" is NOT a Palindrome.");
+        }
+        // UC7 - Deque Based Optimized Palindrome Check
+        String uc7Input = "rotator";
+        Deque<Character> deque = new ArrayDeque<>();
+
+        for (int i = 0; i < uc7Input.length(); i++) {
+            deque.addLast(uc7Input.charAt(i));
+        }
+
+        boolean uc7IsPalindrome = true;
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) {
+                uc7IsPalindrome = false;
+                break;
+            }
+        }
+
+        System.out.println("\n--- UC7: Deque Based Optimized Palindrome Check ---");
+        System.out.println("Input  : " + uc7Input);
+
+        if (uc7IsPalindrome) {
+            System.out.println("Result : \"" + uc7Input + "\" is a Palindrome.");
+        } else {
+            System.out.println("Result : \"" + uc7Input + "\" is NOT a Palindrome.");
+        }
+        // UC8 - Singly Linked List Based Palindrome Check
+        String uc8Input = "noon";
+
+        // Build linked list from string
+        Node head = null;
+        Node tail = null;
+        for (int i = 0; i < uc8Input.length(); i++) {
+            Node newNode = new Node(uc8Input.charAt(i));
+            if (head == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = newNode;
+            }
+        }
+
+        // Find middle using fast and slow pointer
+        Node slow = head;
+        Node fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Reverse second half in-place
+        Node prev = null;
+        Node curr = slow;
+        while (curr != null) {
+            Node nextNode = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = nextNode;
+        }
+
+        // Compare first half and reversed second half
+        Node left = head;
+        Node right = prev;
+        boolean uc8IsPalindrome = true;
+        while (right != null) {
+            if (left.data != right.data) {
+                uc8IsPalindrome = false;
+                break;
+            }
+            left = left.next;
+            right = right.next;
+        }
+
+        System.out.println("\n--- UC8: Singly Linked List Based Palindrome Check ---");
+        System.out.println("Input  : " + uc8Input);
+
+        if (uc8IsPalindrome) {
+            System.out.println("Result : \"" + uc8Input + "\" is a Palindrome.");
+        } else {
+            System.out.println("Result : \"" + uc8Input + "\" is NOT a Palindrome.");
+        }
+    }
+
+    // Node class for Singly Linked List (UC8)
+    static class Node {
+        char data;
+        Node next;
+
+        Node(char data) {
+            this.data = data;
+            this.next = null;
+        }
+        // UC9 - Recursive Palindrome Check
+        String uc9Input = "refer";
+        boolean uc9IsPalindrome = isPalindromeRecursive(uc9Input, 0, uc9Input.length() - 1);
+
+        System.out.println("\n--- UC9: Recursive Palindrome Check ---");
+        System.out.println("Input  : " + uc9Input);
+
+        if (uc9IsPalindrome) {
+            System.out.println("Result : \"" + uc9Input + "\" is a Palindrome.");
+        } else {
+            System.out.println("Result : \"" + uc9Input + "\" is NOT a Palindrome.");
+        }
+    }
+
+    // UC9 - Recursive helper method
+    static boolean isPalindromeRecursive(String str, int start, int end) {
+        // Base condition: single char or pointers crossed
+        if (start >= end) {
+            return true;
+        }
+        if (str.charAt(start) != str.charAt(end)) {
+            return false;
+        }
+        return isPalindromeRecursive(str, start + 1, end - 1);
+        // UC10 - Case and Space Insensitive Palindrome Check
+        String uc10Input = "A man a plan a canal Panama";
+
+        // Normalize: remove non-alphanumeric characters and convert to lowercase
+        String normalized = uc10Input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        // Two-pointer check on normalized string
+        int uc10Left = 0;
+        int uc10Right = normalized.length() - 1;
+        boolean uc10IsPalindrome = true;
+
+        while (uc10Left < uc10Right) {
+            if (normalized.charAt(uc10Left) != normalized.charAt(uc10Right)) {
+                uc10IsPalindrome = false;
+                break;
+            }
+            uc10Left++;
+            uc10Right--;
+        }
+
+        System.out.println("\n--- UC10: Case and Space Insensitive Palindrome Check ---");
+        System.out.println("Input      : " + uc10Input);
+        System.out.println("Normalized : " + normalized);
+
+        if (uc10IsPalindrome) {
+            System.out.println("Result : \"" + uc10Input + "\" is a Palindrome.");
+        } else {
+            System.out.println("Result : \"" + uc10Input + "\" is NOT a Palindrome.");
+        }
+        // UC11 - OOP Encapsulated Palindrome Check
+        PalindromeChecker checker = new PalindromeChecker();
+        String uc11Input = "kayak";
+
+        System.out.println("\n--- UC11: OOP Encapsulated Palindrome Check ---");
+        System.out.println("Input  : " + uc11Input);
+        System.out.println("Result : " + checker.checkPalindrome(uc11Input));
+    }
+
+    // UC11 - PalindromeChecker class (Encapsulation + Single Responsibility)
+    static class PalindromeChecker {
+        public String checkPalindrome(String word) {
+            char[] chars = word.toCharArray();
+            int left = 0;
+            int right = chars.length - 1;
+
+            while (left < right) {
+                if (chars[left] != chars[right]) {
+                    return "\"" + word + "\" is NOT a Palindrome.";
+                }
+                left++;
+                right--;
+            }
+            return "\"" + word + "\" is a Palindrome.";
         }
     }
 }
